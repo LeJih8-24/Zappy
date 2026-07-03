@@ -94,6 +94,16 @@ void Canvas::drawSphere(Vec3 pos, float radius, Color color) const
     DrawSphere(toRaylibVec3(pos), radius, toRaylibColor(color));
 }
 
+void Canvas::drawCylinder(Vec3 pos, float radius, float height, Color color) const
+{
+    DrawCylinder(toRaylibVec3(pos), radius, radius, height, 48, toRaylibColor(color));
+}
+
+void Canvas::drawCircle3D(Vec3 center, float radius, Color color) const
+{
+    DrawCircle3D(toRaylibVec3(center), radius, {1.0F, 0.0F, 0.0F}, 90.0F, toRaylibColor(color));
+}
+
 Color Canvas::fade(Color color, float alpha) const
 {
     ::Color faded = Fade(toRaylibColor(color), alpha);

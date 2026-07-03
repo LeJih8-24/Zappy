@@ -8,6 +8,8 @@
 
 #include "Map.hpp"
 
+#include "Game/TeamColors.hpp"
+
 #include <algorithm>
 #include <array>
 #include <map>
@@ -37,6 +39,23 @@ static std::unordered_map<int, int> buildStackIndex(const GUI::GameState &state)
 }
 
 namespace GUI {
+
+static void drawPlayerAura(const ICanvas &canvas, Vec3 pos, Color color)
+{
+    static constexpr int AURA_RINGS = 7;
+    static constexpr float AURA_INNER_RADIUS = 0.72F;
+    static constexpr float AURA_RADIUS_STEP = 0.05F;
+    static constexpr float AURA_HEIGHT = 0.12F;
+    Vec3 center = {pos.x, pos.y + AURA_HEIGHT, pos.z};
+
+    canvas.drawCylinder(center, AURA_INNER_RADIUS + static_cast<float>(AURA_RINGS) * AURA_RADIUS_STEP,
+        0.035F, canvas.fade(color, 0.55F));
+    canvas.drawCircle3D(center, AURA_INNER_RADIUS - AURA_RADIUS_STEP, Colors::Black);
+    for (int i = 0; i < AURA_RINGS; ++i)
+        canvas.drawCircle3D(center, AURA_INNER_RADIUS + static_cast<float>(i) * AURA_RADIUS_STEP, color);
+    canvas.drawCircle3D(center, AURA_INNER_RADIUS + static_cast<float>(AURA_RINGS) * AURA_RADIUS_STEP,
+        Colors::Black);
+}
 
 Map::Map(ITheme &theme, float squareSize)
     : _theme(theme)
@@ -104,6 +123,7 @@ void Map::drawPlayers(const ICanvas &canvas, const GameState &state, float curre
         Player::DisplayPosition displayPos = player.getDisplayPosition(currentTime);
         Vec3 pos = getTilePosition(displayPos.x, displayPos.y, state, height);
         Player::AnimState animState = player.getEffectiveAnimState(currentTime);
+        drawPlayerAura(canvas, pos, getTeamColor(state, player.teamName));
         _theme.drawPlayer(canvas, pos, player.rotationDeg, animState,
             player.getAnimationElapsed(currentTime, animState));
     }

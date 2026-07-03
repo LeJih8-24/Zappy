@@ -46,7 +46,6 @@ class Hud {
         std::size_t getTeamPlayerCount(const GameState &state, std::string_view teamName) const;
         std::string getTeamLevels(const GameState &state, std::string_view teamName) const;
         std::string getTeamLevelMinMax(const GameState &state, std::string_view teamName) const;
-        Color getTeamColor(const GameState &state, std::string_view teamName) const;
         void addPlayerFlagSegments(HudLine &line, const Player &player, float currentTime) const;
         void addOverviewLines(const GameState &state, HudLines &lines) const;
         void addTeamsLines(const GameState &state, HudLines &lines) const;

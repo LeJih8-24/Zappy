@@ -17,9 +17,11 @@ add_executable(zappy_gui_tests
     gui/test_player.cpp
     gui/test_response_parser.cpp
     gui/test_pack_manifest.cpp
+    gui/test_team_colors.cpp
     ${GUI_SRC}/GuiArgs.cpp
     ${GUI_SRC}/Game/Player.cpp
     ${GUI_SRC}/Game/Entity.cpp
+    ${GUI_SRC}/Game/GameState.cpp
     ${GUI_SRC}/game/Resources/Resources.cpp
     ${GUI_SRC}/networking/ResponseParser/ResponseParser.cpp
     ${GUI_SRC}/Theme/PackManifest.cpp

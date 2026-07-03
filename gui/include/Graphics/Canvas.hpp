@@ -26,6 +26,8 @@ class Canvas : public ICanvas {
         void drawCube(Vec3 pos, Vec3 size, Color color) const override;
         void drawCubeWires(Vec3 pos, Vec3 size, Color color) const override;
         void drawSphere(Vec3 pos, float radius, Color color) const override;
+        void drawCylinder(Vec3 pos, float radius, float height, Color color) const override;
+        void drawCircle3D(Vec3 center, float radius, Color color) const override;
         Color fade(Color color, float alpha) const override;
 };
 

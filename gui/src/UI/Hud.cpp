@@ -8,6 +8,7 @@
 #include "UI/Hud.hpp"
 
 #include "Game/ResourceColors.hpp"
+#include "Game/TeamColors.hpp"
 
 #include <algorithm>
 #include <array>
@@ -19,16 +20,6 @@ static constexpr std::array<std::string_view, 4> hudPageNames = {
     "Teams",
     "Players",
     "Resources",
-};
-
-static constexpr std::array<GUI::Color, 7> hudTeamColors = {
-    GUI::Colors::Blue,
-    GUI::Colors::Red,
-    GUI::Colors::Green,
-    GUI::Colors::Orange,
-    GUI::Colors::Purple,
-    GUI::Colors::SkyBlue,
-    GUI::Colors::Pink,
 };
 
 namespace GUI {
@@ -117,17 +108,6 @@ std::string Hud::getTeamLevelMinMax(const GameState &state, std::string_view tea
     return std::to_string(minLevel) + "-" + std::to_string(maxLevel);
 }
 
-Color Hud::getTeamColor(const GameState &state, std::string_view teamName) const
-{
-    auto team = std::find(state.teams.begin(), state.teams.end(), teamName);
-
-    if (team == state.teams.end())
-        return Colors::LightGray;
-    const std::size_t teamIndex = static_cast<std::size_t>(std::distance(state.teams.begin(), team));
-    const std::size_t colorIndex = teamIndex % hudTeamColors.size();
-    return hudTeamColors[colorIndex];
-}
-
 void Hud::addPlayerFlagSegments(HudLine &line, const Player &player, float currentTime) const
 {
     Player::AnimState state = player.getEffectiveAnimState(currentTime);
@@ -163,7 +143,7 @@ void Hud::addTeamsLines(const GameState &state, HudLines &lines) const
 {
     for (const std::string &team : state.teams) {
         const std::size_t playerCount = getTeamPlayerCount(state, team);
-        const Color teamColor = getTeamColor(state, team);
+        const Color teamColor = GUI::getTeamColor(state, team);
 
         lines.push_back({{team, teamColor}, {": " + std::to_string(playerCount) + " player"
             + (playerCount > 1 ? "s" : ""), Colors::RayWhite}});
@@ -178,7 +158,7 @@ void Hud::addPlayersForTeam(const GameState &state, HudLines &lines, std::string
     float currentTime) const
 {
     bool found = false;
-    const Color teamColor = getTeamColor(state, teamName);
+    const Color teamColor = GUI::getTeamColor(state, teamName);
 
     for (const auto &[id, player] : state.players) {
         if (player.teamName != teamName)
@@ -201,7 +181,7 @@ void Hud::addPlayersForTeam(const GameState &state, HudLines &lines, std::string
 void Hud::addPlayersLines(const GameState &state, HudLines &lines, float currentTime) const
 {
     for (const std::string &team : state.teams) {
-        lines.push_back({{team, getTeamColor(state, team)}});
+        lines.push_back({{team, GUI::getTeamColor(state, team)}});
         addPlayersForTeam(state, lines, team, currentTime);
     }
     for (const auto &[id, player] : state.players) {
