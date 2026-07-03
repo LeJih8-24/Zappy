@@ -17,9 +17,9 @@ namespace GUI {
 
 inline constexpr std::array<Color, 7> TeamColorPalette = {
     Colors::Blue,
+    Colors::Yellow,
     Colors::Red,
     Colors::Green,
-    Colors::Orange,
     Colors::Purple,
     Colors::SkyBlue,
     Colors::Pink,
