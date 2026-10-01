@@ -29,6 +29,8 @@ class ICanvas {
         virtual void drawCube(Vec3 pos, Vec3 size, Color color) const = 0;
         virtual void drawCubeWires(Vec3 pos, Vec3 size, Color color) const = 0;
         virtual void drawSphere(Vec3 pos, float radius, Color color) const = 0;
+        virtual void drawCylinder(Vec3 pos, float radius, float height, Color color) const = 0;
+        virtual void drawCircle3D(Vec3 center, float radius, Color color) const = 0;
         virtual Color fade(Color color, float alpha) const = 0;
 };
 

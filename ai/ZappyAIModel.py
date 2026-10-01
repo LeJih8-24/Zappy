@@ -228,7 +228,7 @@ class ZappyAI:
 
         elif isinstance(command, ForkCommand) and result is True:
             self.logger.Good("L'œuf a été pondu avec succès ! Un nouveau drone arrivera dans 600 ticks.")
-            self._launch_new_drone()
+            self.launch_new_drone()
 
         elif isinstance(command, TurnRightCommand) and result is True:
             self.states.orientation = (self.states.orientation + 1) % 4
